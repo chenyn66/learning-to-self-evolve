@@ -1,0 +1,34 @@
+# Python / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+.venvs/
+.cache/
+
+# Local env files
+.api_keys.local
+
+# Generated outputs
+logs/
+outputs/
+checkpoints/
+wandb/
+tmp/
+
+# Keep bundled release assets even though the parent repo ignores many data files.
+!data/**
+
+# Large BIRD database assets stay local even though lightweight metadata is tracked.
+data/bird/dev_data/dev_databases/
+data/bird/train_data/train_databases/
+data/bird/dev_data/dev_databases.zip
+data/bird/ground_truth_cache.pkl
+data/bird/mini_dev_data/
+data/bird/evaluation/
+data/bird/examples/
+data/bird/finetuning/
+data/bird/live_sql_bench_sqlite/
+data/bird/llm/
+data/bird/materials/

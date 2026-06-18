@@ -1,0 +1,8 @@
+compute_environment: LOCAL_MACHINE
+distributed_type: MULTI_GPU         # this triggers DDP
+num_processes: 8                    # e.g., 8 GPUs on a single node
+mixed_precision: bf16               # or "fp16" / "no"
+machine_rank: 0
+num_machines: 1
+same_network: true
+downcast_bf16: 'no'

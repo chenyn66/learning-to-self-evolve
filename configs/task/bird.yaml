@@ -1,0 +1,16 @@
+name: bird
+
+# BIRD (text-to-SQL) task configuration
+db_id: null  # when set, BatchBird will use this db_id; else sample one and persist
+data_root: ${oc.env:LSE_BIRD_DATA_ROOT,data/bird}
+
+# No training observations are provided; single-test per problem
+prompt_style: "instruction"   # placeholder prompts; refine later
+include_full_response: true
+dev_size: -1 # If > 0, hold out this many in-domain questions for dev evaluation.
+test_size: -1 # If > 0, also hold out a separate test set. Requires dev_size > 0.
+k_fold: 1
+resample_problem: true
+test_ood: false # If true and test_size > 0, only test holdout is OOD; otherwise keep legacy single-holdout OOD behavior.
+
+split: "dev" # "dev" or "train"

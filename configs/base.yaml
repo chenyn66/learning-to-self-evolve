@@ -1,0 +1,84 @@
+defaults:
+  - _self_
+  - task: bird
+
+
+
+n_sims: 2
+n_round: 5
+
+debug: false
+
+# Optimization driver:
+# - lse: current self-evolve loop (default)
+# - gepa: GEPA baseline optimizer over instructions-only (bird/mmlu only)
+optimizer: lse
+
+wandb_key: ${oc.env:WANDB_API_KEY,''}
+
+# When true, also evaluate a fixed reference policy (base prompt)
+# on the same sampled problems each round, and log the delta
+# between current policy accuracy and reference accuracy.
+use_ref: false
+
+## Model configuration
+# Use model.name instead of legacy model_path
+# Legacy: model_path: Qwen/Qwen2.5-1.5B-Instruct
+no_think: false
+
+
+log_dir: ${oc.env:LSE_LOG_DIR,logs}
+
+
+project_name: lse
+run_name: run
+
+train_n_eval: 1
+test_n_eval: 1
+
+seed: 42
+
+
+evolve_mode: "self"
+react_mode: false
+
+# Generation retry configuration
+max_tries: 3  # Maximum retry attempts for failed generations
+
+# TextGrad-style baseline options (used by evolve_mode=textgrad)
+textgrad:
+  max_failures: 6
+  max_example_chars: 1200
+  max_instruction_chars: 8192
+  forbid_fewshot: true
+  revert_on_worse_holdout: true
+
+# Output post-processing (safety valves for degenerate generations)
+truncate_repetitive:
+  enabled: false          # truncate pathological repetitive suffix loops
+  min_run_length: 100    # minimum repeated suffix length to trigger truncation
+  lookback: 4096         # scan this many chars from the end
+  add_marker: false      # debugging only; keep false for training data
+
+# Tree search configuration
+tree:
+  enabled: true
+  selection: deepest   # deepest|best|ucb
+  ucb_c: 2.0
+  metric: train # train|dev|test (dev/test both use dev holdout performance)
+
+
+# Model configuration
+model:
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  url: null
+  api_key: null
+  evolve_model: ${model.name}
+  sample_agent: true
+  sampling:
+    temperature: 0.7
+    top_p: 0.8
+    top_k: 20
+    min_p: 0.0
+    presence_penalty: 0.5
+    max_tokens: 4096

@@ -1,0 +1,77 @@
+# Tokenizer class or path. If null, it will be inferred from the model.
+tokenizer: null
+
+# Whether to use shared memory for data loading.
+use_shm: False
+
+# Training set directories. Each directory contains subfolders with `tree/` and `env/`.
+train_files: ${oc.env:LSE_RL_TRAIN_FILES,logs/bird_data/bird}
+
+# Validation set directories.
+val_files: ${oc.env:LSE_RL_VAL_FILES,logs/bird_data_test/bird}
+
+# Maximum sample length to be used.
+train_max_samples: -1
+
+# Maximum sample length to be used.
+val_max_samples: -1
+
+# The field used to select the reward function (if using different ones per example).
+reward_fn_key: data_source
+
+# Maximum prompt length.
+max_prompt_length: 65536
+
+# Maximum response length. Rollout generates up to this length.
+max_response_length: 16384
+
+# Batch size sampled for one training iteration.
+train_batch_size: 8
+
+# Batch size used during validation. Can be null.
+val_batch_size: null
+
+# Whether to return the raw chat messages (list of {"role","content"} dicts) from the dataset.
+# NOTE: For RL rollout, chat-template/tokenization happens inside AgentLoop right before generation
+# (not in the dataset), so we keep prompts structured here.
+return_raw_chat: True
+
+# Whether to shuffle the data in the dataloader.
+shuffle: False # set to False since we order the dataset in the dataset class
+
+# Seed to use when shuffling the data.
+seed: null
+
+# Optional sampler config. Set to null to use the default sampler.
+sampler: null
+
+# num dataloader workers.
+dataloader_num_workers: 8
+
+# Whether to filter overlong prompts.
+filter_overlong_prompts: False
+
+# Truncate the input_ids or prompt if they exceed max_prompt_length.
+truncation: error
+
+# If the remote tokenizer has a Python file, this flag determines whether to allow using it.
+trust_remote_code: False
+
+# LSE-specific dataset controls.
+min_improve_potential: 0.0
+ordered_by: improve_potential
+
+# Optional: specify a custom dataset class path and name.
+custom_cls:
+
+  # Package path to the dataset class.
+  path: pkg://verl.utils.dataset.lse_dataset
+
+  # The name of the dataset class within the specified file.
+  name: LSEDataset
+
+# Whether to return multi-modal inputs in the dataset.
+return_multi_modal_inputs: True
+
+# Optional tool config for agent loop (unused for LSE).
+tool_config_path: null

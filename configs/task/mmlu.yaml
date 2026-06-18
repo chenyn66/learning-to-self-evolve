@@ -1,0 +1,16 @@
+name: mmlu
+
+# MMLU-Redux task configuration
+subject: null  # null or "all" for random sampling, or specific subject e.g. "abstract_algebra"
+data_dir: ${oc.env:LSE_MMLU_DATA_DIR,data}
+
+prompt_style: "instruction"
+include_full_response: true
+dev_size: -1 # If > 0, hold out this many in-domain samples for dev evaluation.
+test_size: -1 # If > 0, also hold out a separate test set. Requires dev_size > 0.
+k_fold: 1
+resample_problem: true
+test_ood: false # If true and test_size > 0, only test holdout is OOD; otherwise keep legacy single-holdout OOD behavior.
+
+split: "dev" # "dev" or "train" or "gpqa"
+
